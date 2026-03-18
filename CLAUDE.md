@@ -2,17 +2,26 @@
 
 Proxify's Claude Code acceleration plugin — skills, agents, and guides for agentic engineering.
 
-## Install
+## Mission
 
-```bash
-npx skills add proxify-dev/Claude-Code
-```
+Move Proxify engineers from "AI assistance" to "delegation." The target engineer works in a brownfield codebase with real history, conventions, and tech debt. Every skill, doc, and agent in this repo should serve that shift — not AI theory, not greenfield idealism.
+
+**The core model:** You are the architect and reviewer. The agent is the implementer. This repo exists to help engineers internalize that model and set up the context (CLAUDE.md, skills, agents) that makes it work.
+
+## Principles
+
+- **Distribute, don't document** — content should reach engineers through `npx skills add`, not Slack links. Skills and agents are the primary delivery mechanism.
+- **Essential only** — when content becomes redundant or generic, cut it. Value is in specificity and density, not breadth.
+- **Context is the leverage point** — CLAUDE.md, skills, and agents are all context-delivery mechanisms. The goal is loading the right knowledge at the right time.
+- **Markdown-native** — all content stays `.md`. Files must render natively on GitHub. No `.mdx` unless JSX is actually required.
+- **One topic per file, self-contained** — each document covers exactly one thing and can be understood without reading others.
+- **Engineers are the audience** — brownfield reality, not greenfield idealism.
 
 ## Plugin Structure
 
 - `/skills/` — Distributable skills (discovered by `npx skills add`)
 - `/agents/` — Bundled subagents (future)
-- `/docs/` — Guides, tips, and resources for engineers
+- `/docs/` — Guides and references for engineers
 - `/.claude-plugin/plugin.json` — Plugin manifest
 
 ## Available Skills
@@ -28,6 +37,7 @@ npx skills add proxify-dev/Claude-Code
 - Prefer bullet points and tables over prose
 - File names: lowercase, hyphens, `.md` extension
 - Internal links use relative paths
+- Every doc file gets frontmatter: `title`, `description`, `sidebar_position`
 
 ## Adding a New Skill
 
@@ -44,9 +54,15 @@ npx skills add proxify-dev/Claude-Code
 
 ## Adding Documentation
 
-- Add new docs to the appropriate `/docs/` subdirectory (`getting-started/`, `guides/`, `skills/`, `agents/`, `reference/`)
+- Add new docs to the appropriate `/docs/` subdirectory (`setup/`, `patterns/`, `skills/`, `agents/`, `reference/`)
 - Add frontmatter (`title`, `description`, `sidebar_position`) to every doc file
 - Update README.md with a link
+
+**Include** if the content is Proxify-specific, teaches the delegation mindset, or is context an agent needs to execute a task correctly.
+
+**Backlink** if the content is better maintained upstream (official Claude Code docs, the skill itself) — reference it, don't duplicate it.
+
+**Cut** if the content would apply equally to any developer using Claude Code on any project. Generic advice belongs upstream.
 
 ## Dual-Repo Boundary
 

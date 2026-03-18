@@ -18,28 +18,160 @@ hero:
 import { LinkCard, CardGrid, Aside } from '@astrojs/starlight/components';
 
 <Aside type="tip">
-New to Claude Code? Start with the [official quickstart](https://code.claude.com/docs/en/quickstart) to get installed and running. This guide picks up where that leaves off.
+New to Claude Code? Start with the [official quickstart](https://code.claude.com/docs/en/quickstart) to get installed and running. This guide picks up where that leaves off. Or jump straight to the [onboarding checklist](/Claude-Code/reference/onboarding-checklist/).
 </Aside>
+
+## Mindset
 
 <CardGrid>
   <LinkCard
-    title="Setup"
-    href="/Claude-Code/setup/claude-md/"
-    description="CLAUDE.md blueprint, skills stack, hooks playbook, and MCP wiring."
-  />
-  <LinkCard
-    title="Patterns"
+    title="Agentic Engineering"
     href="/Claude-Code/patterns/agentic-engineering/"
-    description="Agentic engineering mindset, workflow patterns, and context management."
+    description="The shift from coding with AI to delegating work to AI agents."
   />
   <LinkCard
-    title="Skills"
+    title="The Maturity Ladder"
+    href="/Claude-Code/patterns/maturity-ladder/"
+    description="Four levels — from vibe coding to production-grade engineering."
+  />
+</CardGrid>
+
+## Setup
+
+<CardGrid>
+  <LinkCard
+    title="CLAUDE.md Blueprint"
+    href="/Claude-Code/setup/claude-md/"
+    description="The 200-line pointer pattern for project context."
+  />
+  <LinkCard
+    title="Skills Stack"
+    href="/Claude-Code/setup/skills-stack/"
+    description="Starter stacks and skill composition."
+  />
+  <LinkCard
+    title="Hooks Playbook"
+    href="/Claude-Code/setup/hooks-playbook/"
+    description="Auto-lint, block .env, guard config — 5 essential hooks."
+  />
+  <LinkCard
+    title="MCP Wiring"
+    href="/Claude-Code/setup/mcp-wiring/"
+    description="Connect GitHub, databases, and project management."
+  />
+  <LinkCard
+    title="Terminal Setup"
+    href="/Claude-Code/setup/terminal-setup/"
+    description="Aliases, status line, color tabs, and lazy-loading."
+  />
+</CardGrid>
+
+## Daily Workflow
+
+<CardGrid>
+  <LinkCard
+    title="Workflow Patterns"
+    href="/Claude-Code/patterns/workflow-patterns/"
+    description="Plan-then-execute, TDD, bug fix, refactor, code review."
+  />
+  <LinkCard
+    title="Context Management"
+    href="/Claude-Code/patterns/context-management/"
+    description="Token budgeting, /compact, @imports, large codebases."
+  />
+  <LinkCard
+    title="Session Management"
+    href="/Claude-Code/patterns/session-management/"
+    description="Handoffs, plan mode, forking, when to start fresh."
+  />
+  <LinkCard
+    title="Parallel Execution"
+    href="/Claude-Code/patterns/parallel-execution/"
+    description="Git worktrees, the cascade, 3-5 sessions in parallel."
+  />
+  <LinkCard
+    title="Prompting Craft"
+    href="/Claude-Code/patterns/prompting-craft/"
+    description="Be specific not emphatic, challenge Claude, self-reflection loops."
+  />
+</CardGrid>
+
+## Advanced
+
+<CardGrid>
+  <LinkCard
+    title="Autonomous Tasks"
+    href="/Claude-Code/patterns/autonomous-tasks/"
+    description="Write-test cycles, tmux, git bisect, safety rails."
+  />
+  <LinkCard
+    title="Self-Improving Loop"
+    href="/Claude-Code/patterns/self-improving-loop/"
+    description="CLAUDE.md iteration, skill creation, conversation mining."
+  />
+  <LinkCard
+    title="Subagent Patterns"
+    href="/Claude-Code/patterns/subagent-patterns/"
+    description="Parallelize work while keeping main context clean."
+  />
+</CardGrid>
+
+## Skills
+
+<CardGrid>
+  <LinkCard
+    title="Skills Overview"
     href="/Claude-Code/skills/overview/"
-    description="Install, create, and distribute reusable knowledge packages."
+    description="The three-level loading model and how skills work."
   />
   <LinkCard
-    title="Reference"
+    title="Using Skills"
+    href="/Claude-Code/skills/using-skills/"
+    description="Install, browse, and configure skills."
+  />
+  <LinkCard
+    title="Creating Skills"
+    href="/Claude-Code/skills/creating-skills/"
+    description="Anatomy, SKILL.md format, and first steps."
+  />
+  <LinkCard
+    title="Distributing Skills"
+    href="/Claude-Code/skills/distributing-skills/"
+    description="Share skills via GitHub and skills.sh."
+  />
+</CardGrid>
+
+## Agents
+
+<CardGrid>
+  <LinkCard
+    title="Creating Agents"
+    href="/Claude-Code/agents/creating-agents/"
+    description="Frontmatter, system prompts, model selection, MCP config."
+  />
+</CardGrid>
+
+## Reference
+
+<CardGrid>
+  <LinkCard
+    title="Onboarding Checklist"
+    href="/Claude-Code/reference/onboarding-checklist/"
+    description="Zero to productive in 30 minutes — all actions, no explanations."
+  />
+  <LinkCard
+    title="Common Pitfalls"
     href="/Claude-Code/reference/common-pitfalls/"
-    description="Common pitfalls, links to official docs, and resources."
+    description="Mistakes engineers make and how to avoid them."
+  />
+  <LinkCard
+    title="Links & Resources"
+    href="/Claude-Code/reference/links/"
+    description="Official docs, skills ecosystem, community."
+  />
+  <LinkCard
+    title="Shortcuts & Commands"
+    href="/Claude-Code/reference/shortcuts/"
+    description="Slash commands, keyboard shortcuts, CLI flags."
   />
 </CardGrid>

@@ -1,0 +1,79 @@
+---
+title: "Session Management"
+description: "When to start fresh, how to hand off context, and how to juggle multiple sessions."
+sidebar_position: 4
+---
+
+## Fresh Context Is Your Best Context
+
+Start new sessions **per task**, not per day. Performance degrades as context grows — Claude starts forgetting earlier decisions, repeating itself, and losing track of the goal.
+
+One task, one session. Finish, hand off, start clean.
+
+## The Handoff Pattern
+
+Before ending a session, write a `HANDOFF.md` with everything the next agent needs:
+
+```markdown
+# Handoff: [Task Name]
+
+## Goal
+What we're trying to accomplish.
+
+## Current Progress
+- [x] Step 1 completed
+- [x] Step 2 completed
+- [ ] Step 3 in progress
+
+## What Worked
+- Approach A solved the auth issue
+- Using mock data for testing was faster
+
+## What Didn't
+- Approach B caused circular imports
+- The old migration path is broken
+
+## Next Steps
+1. Finish Step 3
+2. Write integration tests
+3. Update the API docs
+```
+
+Feed the path to the next agent as the first message: `"Read HANDOFF.md and continue from where the last session left off."`
+
+## Plan Mode Handoff
+
+A lighter-weight alternative when you don't need a full HANDOFF.md:
+
+1. Enter plan mode with `/plan` or `Shift+Tab`
+2. Ask Claude to gather everything the next agent needs — decisions made, files changed, what's left
+3. Select Option 1: "Yes, clear context and auto-accept edits"
+4. The new session starts clean with only the plan as context
+
+This is faster than writing a HANDOFF.md manually but gives you less control over what carries forward.
+
+## Forking
+
+When you want to explore a branch without losing your current session:
+
+- **Mid-conversation:** `/fork` creates a copy of the current session you can take in a different direction
+- **From terminal:** `claude --fork-session` with `--resume` or `--continue` to branch from a previous session
+
+Useful for: "What if we tried approach B instead?" without abandoning approach A.
+
+## When to Compact vs. When to Start Fresh
+
+| Situation | Action |
+|-----------|--------|
+| Minor pivot within the same task | `/compact` and continue |
+| Finished one task, starting another | New session |
+| Context feels degraded (repetition, forgetting) | New session with HANDOFF.md |
+| Exploring an alternative approach | `/fork` |
+
+:::tip[Handoff skill]
+For a structured handoff workflow, install the handoff skill: `npx skills add ykdojo/claude-code-tips@handoff`
+:::
+
+---
+
+**← Prev:** [Context Management](context-management/) · **Next:** [Parallel Execution →](parallel-execution/)

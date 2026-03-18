@@ -1,0 +1,94 @@
+---
+title: "Autonomous Task Patterns"
+description: "How to set Claude up to work without supervision — and the guardrails that make it safe."
+sidebar_position: 7
+---
+
+## The Write-Test Cycle
+
+The most reliable autonomous pattern: Claude writes code, runs tests, checks output, iterates until green.
+
+The key ingredient is a **verifiable success condition**. Without one, Claude can't self-correct.
+
+| Task Type | Success Condition |
+|-----------|------------------|
+| Unit tests | All tests pass |
+| Integration tests | API returns expected responses |
+| CLI tool | Command produces expected output |
+| Refactor | All existing tests still pass |
+| Bug fix | Failing test now passes, no regressions |
+
+Give Claude the success condition upfront: "Write the migration and run `npm test` until all tests pass."
+
+## tmux for Interactive Testing
+
+Some tools can't be tested with a simple command — they need interactive input, persistent sessions, or real-time output. Use tmux to let Claude drive interactive tools:
+
+```bash
+# Start a detached session
+tmux new-session -d -s test-session
+
+# Send a command
+tmux send-keys -t test-session 'npm run dev' Enter
+
+# Wait for output
+sleep 2
+
+# Capture what's on screen
+tmux capture-pane -t test-session -p
+```
+
+This pattern works for CLIs, REPLs, dev servers, database consoles — anything that needs a persistent terminal session.
+
+:::tip
+Claude can create and manage tmux sessions on its own. Just describe what you want tested and mention tmux as the approach.
+:::
+
+## Git Bisect with Claude
+
+When something broke and you don't know when:
+
+1. Give Claude a test script that fails on the current commit
+2. Tell it to use `git bisect` to find the breaking commit
+3. Claude runs the binary search automatically, testing each commit
+
+This turns a manual debugging session into an autonomous task with a clear answer.
+
+## Browser-Based Verification
+
+Unit tests verify logic. Browser tests verify what users actually see.
+
+Use Playwright to let Claude verify rendered output:
+
+- "Run the app, navigate to `/dashboard`, and verify the chart renders with data"
+- "Fill out the signup form and verify the success message appears"
+- "Check that the mobile nav menu opens and closes correctly"
+
+This catches CSS regressions, rendering bugs, and integration issues that unit tests miss entirely.
+
+## Background Testing
+
+Run a second Claude session that continuously tests your app while you work on features in another session:
+
+1. Open a second terminal in the same project (or a worktree)
+2. Tell Claude: "Run the full test suite every 5 minutes and alert me if anything breaks"
+3. Continue working in your primary session
+
+You get continuous regression feedback without interrupting your flow.
+
+## Safety Rails
+
+Autonomous agents are powerful but need guardrails. Before delegating unsupervised work:
+
+:::warning[Always commit before delegating]
+If Claude breaks something, `git checkout .` gets you back. Without a commit, your work is gone.
+:::
+
+- **Commit first.** Always. Non-negotiable.
+- **Branch for risky work.** Migrations, large refactors, dependency upgrades — branch so main stays clean.
+- **Pre-commit hooks block dangerous patterns.** Secret leaks, `rm -rf`, force pushes. See the [hooks playbook](../setup/hooks-playbook/).
+- **Use containers for `--dangerously-skip-permissions`.** If you need to give Claude unrestricted access, run it in a container where the blast radius is limited.
+
+---
+
+**← Prev:** [Prompting Craft](prompting-craft/) · **Next:** [Self-Improving Loop →](self-improving-loop/)

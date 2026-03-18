@@ -1,0 +1,75 @@
+---
+title: "Prompting Craft"
+description: "Specific techniques for getting more out of Claude Code — not generic prompt engineering."
+sidebar_position: 6
+---
+
+:::tip[This isn't generic prompt engineering]
+These techniques are specific to working with Claude Code in real codebases. If you want general prompting advice, look elsewhere.
+:::
+
+## Be Specific, Not Emphatic
+
+Error messages beat adjectives. File paths beat "the auth code." ALL CAPS doesn't help — context does.
+
+| Weak | Strong |
+|------|--------|
+| "Fix the auth bug" | "The login endpoint returns 401 when the JWT is valid — see `src/auth/middleware.ts:42`" |
+| "Make this FASTER" | "This query takes 3s on 10k rows. Profile it and suggest indexes." |
+| "Write GOOD tests" | "Write tests covering the edge cases in `processPayment`: expired card, insufficient funds, duplicate charge." |
+
+The model responds to information, not emphasis.
+
+## Challenge Claude
+
+Don't just accept the first output. Push back:
+
+- **"Grill me on these changes and don't make a PR until I pass your test."** — Forces Claude to verify you understand the code before shipping it.
+- **"Knowing everything you know now, scrap this and implement the elegant solution."** — After Claude has explored the problem space, ask it to restart with full context. The second attempt is almost always better.
+- **"What are three ways this could break in production?"** — Surfaces failure modes you haven't considered.
+
+## Self-Reflection Loops
+
+This is a Level 4 technique from the [maturity ladder](maturity-ladder/). Ask Claude to check its own work:
+
+- "Are you sure about this? What about edge case X?"
+- "Review this diff as if you were a senior engineer who's skeptical of AI-generated code."
+- "What assumptions are you making? Which ones could be wrong?"
+
+Self-reflection uses more tokens but catches mistakes before they reach code review. The net cost is lower.
+
+## Problem Decomposition
+
+When one-shotting a complex task fails, break it down:
+
+```
+Big Task A
+├── A1: Extract the data layer
+├── A2: Write the transformation logic
+├── A3: Add error handling
+└── B: Wire up the API endpoint
+```
+
+Each sub-problem is independently solvable and verifiable. Claude handles scoped tasks better than sprawling ones.
+
+## CLAUDE.md as a Self-Updating Artifact
+
+Every time you correct Claude, tell it:
+
+> "Update CLAUDE.md so you don't make that mistake again."
+
+Claude is good at writing rules for itself. Over time, your CLAUDE.md accumulates project-specific knowledge that prevents repeated mistakes. This is the compounding advantage of agentic engineering — the context improves with every session.
+
+## Voice Input
+
+You speak roughly 3x faster than you type. For prompting Claude Code, that speed matters.
+
+Options:
+- **superwhisper** — local transcription, good accuracy, no cloud dependency
+- **macOS dictation** — press `fn` twice, speak, press `fn` again
+
+Don't worry about perfect transcription. Claude handles mistranscriptions, filler words, and informal language well. The speed gain outweighs the occasional misparse.
+
+---
+
+**← Prev:** [Parallel Execution](parallel-execution/)

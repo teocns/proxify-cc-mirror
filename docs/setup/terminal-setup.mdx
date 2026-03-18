@@ -1,0 +1,106 @@
+---
+title: "Terminal Setup"
+description: "Configure your terminal for multi-session agentic work."
+sidebar_position: 5
+---
+
+## Shell Aliases
+
+Single-letter aliases matter at scale. When you're launching 5+ sessions a day, every keystroke counts.
+
+Add to `~/.zshrc` or `~/.bashrc`:
+
+```bash
+alias c='claude'
+alias ch='claude --chrome'
+```
+
+Combine with flags for common workflows:
+
+```bash
+c -c        # Continue last conversation
+c -r        # Resume picker — choose from recent sessions
+c -p "..."  # Non-interactive single prompt
+```
+
+## Status Line
+
+Use `/statusline` to show model, git branch, and context usage at the bottom of every session.
+
+This matters most when running parallel sessions — you can glance at any tab and immediately see:
+- Which model you're on
+- Which branch you're working in
+- How much context budget remains
+
+Context awareness prevents the most common mistake in long sessions: not realizing you've burned through your context window until Claude starts forgetting things.
+
+## Color-Coded Tabs
+
+When running parallel sessions, color your terminal tabs to distinguish tasks at a glance:
+
+- **Green** — main feature work
+- **Blue** — tests
+- **Red** — hotfix or urgent
+- **Yellow** — exploration / research
+
+Most terminals support tab coloring (iTerm2, Ghostty, Windows Terminal). The specific colors don't matter — consistency does.
+
+## Disable Auto-Updates
+
+Pin to a stable version for consistency, especially when working on long-running tasks. Add to `~/.claude/settings.json`:
+
+```json
+{
+  "env": {
+    "DISABLE_AUTOUPDATER": "1"
+  }
+}
+```
+
+:::warning
+Auto-updates can change behavior mid-project. Pin your version, test new releases on a side project first, then update deliberately.
+:::
+
+## Lazy-Load MCP Tools
+
+MCP tool definitions load into every conversation by default, consuming context before you've typed a single prompt. Enable lazy-loading to reduce startup cost:
+
+```json
+{
+  "env": {
+    "ENABLE_TOOL_SEARCH": "true"
+  }
+}
+```
+
+This happens automatically when MCP tool descriptions exceed 10% of context, but setting it explicitly ensures consistent behavior across projects with different MCP configurations.
+
+## Disable Attribution
+
+Cleaner commits without the `Co-Authored-By` trailer. Add to `~/.claude/settings.json`:
+
+```json
+{
+  "attribution": {
+    "commit": "",
+    "pr": ""
+  }
+}
+```
+
+Useful when your team's commit conventions don't include AI attribution, or when you want cleaner git logs.
+
+## Recommended Terminals
+
+| Terminal | Why |
+|----------|-----|
+| **Ghostty** | Claude Code team's favorite. Fast, minimal, good defaults |
+| **iTerm2** | Tab coloring, split panes, profiles for different projects |
+| **Kitty** | GPU-accelerated, highly configurable |
+| **Windows Terminal** | Best option on Windows, tab support, customizable |
+
+The key features to look for: tab support, customizable colors, and a terminal that stays out of your way. Avoid terminals that intercept keyboard shortcuts Claude Code needs.
+
+---
+
+**← Prev:** [MCP Wiring](mcp-wiring/) · **Next:** [Agentic Engineering →](../patterns/agentic-engineering/)

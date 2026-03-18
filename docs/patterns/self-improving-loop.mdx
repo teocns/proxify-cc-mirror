@@ -1,0 +1,94 @@
+---
+title: "The Self-Improving Loop"
+description: "How to make Claude Code get better at your project over time — not just within a session."
+sidebar_position: 8
+---
+
+## CLAUDE.md as a Living Document
+
+Every time you correct Claude, follow up with: *"Update your CLAUDE.md so you don't make that mistake again."*
+
+Claude is eerily good at writing rules for itself. It will add specific, actionable constraints — not vague guidelines. Each correction becomes a permanent guardrail.
+
+The habit is simple:
+1. Claude makes a mistake
+2. You correct it
+3. You tell it to update CLAUDE.md
+4. The mistake doesn't happen again
+
+Keep iterating. The first version of your CLAUDE.md will be rough. After a week of corrections, it becomes surprisingly precise. This is the lightweight, always-on habit that compounds over time.
+
+## The Skill Creation Threshold
+
+**If you do something more than once a day, make it a skill or slash command.**
+
+Examples that should become skills:
+- `/techdebt` — Scan for duplicated code, dead imports, inconsistent patterns
+- A context-dump skill that syncs relevant info from Slack, Google Drive, or GitHub into a format Claude can consume
+- Analytics agents that write dbt models from plain-language descriptions
+- A deployment checklist skill that runs pre-deploy validations
+
+The threshold is low on purpose. Creating a skill takes minutes. The payoff is every future session where you don't have to explain the same thing again.
+
+```bash
+# Install the skill-architecture skill to learn how to create your own
+npx skills add proxify-dev/Claude-Code@skill-architecture
+```
+
+## Conversation History Mining
+
+Your conversation history lives in `~/.claude/projects/`. Every session is stored and searchable.
+
+Search across sessions to find patterns:
+
+```bash
+# Find all instances where Claude was corrected
+grep -r "don't" ~/.claude/projects/ --include="*.json" | head -20
+
+# Find recurring instructions
+grep -r "always use" ~/.claude/projects/ --include="*.json" | head -20
+
+# Find failed approaches
+grep -r "that didn't work" ~/.claude/projects/ --include="*.json" | head -20
+```
+
+Look for:
+- **Instructions that get violated repeatedly** — these need hooks, not CLAUDE.md entries
+- **Approaches that keep failing** — add them as explicit "Don't do X" rules
+- **Patterns that emerge across sessions** — candidates for skills
+
+## Periodic CLAUDE.md Review
+
+Use the `review-claudemd` skill to automate this. It launches parallel Sonnet subagents that analyze your recent conversations and surface:
+
+- **Violations** — rules in CLAUDE.md that Claude ignored
+- **Missing rules** — corrections you made that aren't captured yet
+- **Stale entries** — rules that no longer apply to the current codebase
+
+```bash
+npx skills add ykdojo/claude-code-tips@review-claudemd
+```
+
+Run it weekly, or whenever your CLAUDE.md feels out of sync with how you actually work.
+
+## The Feedback Cycle
+
+The full loop looks like this:
+
+| Stage | What happens |
+|-------|-------------|
+| **Correction** | You fix a mistake in a session |
+| **CLAUDE.md update** | The correction becomes a permanent rule |
+| **Fewer corrections** | Future sessions hit the same issue less |
+| **Skill creation** | Repeated patterns become reusable skills |
+| **Institutionalized knowledge** | The team benefits, not just you |
+
+The goal is moving knowledge *out of your head* and *into context* — CLAUDE.md, skills, agents — where it compounds across every session and every engineer.
+
+:::tip
+The fastest way to improve Claude's performance on your project is not prompt engineering — it's maintaining your CLAUDE.md. Spend 2 minutes after each session updating it.
+:::
+
+---
+
+**← Prev:** [Autonomous Tasks](autonomous-tasks/) · **Next:** [Subagent Patterns →](subagent-patterns/)

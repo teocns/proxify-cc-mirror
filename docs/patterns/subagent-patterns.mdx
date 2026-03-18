@@ -1,0 +1,71 @@
+---
+title: "Subagent Patterns"
+description: "When and how to use subagents to parallelize work while keeping your main context clean."
+sidebar_position: 9
+---
+
+## What Are Subagents?
+
+Claude Code can spawn lightweight agents to handle tasks in parallel. These subagents run independently, do their work, and report back — while your main conversation stays focused.
+
+You don't need special syntax. Just tell Claude:
+- "Use subagents for this"
+- "Parallelize this work across subagents"
+- "Spin up agents to handle each file separately"
+
+Claude will decide how to split the work and coordinate the results.
+
+## Context Hygiene
+
+The main value of subagents is **keeping your primary context clean**. Every file read, every exploration, every dead end consumes context. Subagents take that cost on themselves and return only the results.
+
+Offload to subagents:
+- Broad codebase exploration ("find all the places we handle authentication")
+- Research across multiple files or directories
+- File scanning and pattern matching
+- Independent analysis tasks
+
+Keep in your main context:
+- Decision-making and architecture
+- Sequential implementation steps
+- Anything that requires the full picture
+
+The built-in **Explore agent** is a good example — it does broad codebase exploration without polluting your main context with hundreds of file reads.
+
+## When Subagents Help
+
+| Scenario | Why subagents work |
+|----------|--------------------|
+| Reading 10+ files to understand a system | Each subagent reads a subset, reports findings |
+| Analyzing independent modules | No dependencies between analysis tasks |
+| Running tests across different areas | Each test suite runs in isolation |
+| Researching multiple approaches | Explore options in parallel, compare results |
+| Large refactors across many files | Each subagent handles a subset of files |
+
+## When They Don't
+
+| Scenario | Why subagents hurt |
+|----------|-------------------|
+| Sequential decisions (step 2 depends on step 1) | Subagents can't coordinate mid-task |
+| Tasks requiring full project context | Each subagent only sees what you give it |
+| Small, focused tasks | Overhead of spawning isn't worth it |
+| Tasks requiring user approval at each step | Subagents run autonomously |
+
+## Permission Routing
+
+You can set up a hook that routes permission requests to a lighter model (like Haiku) for auto-approval of safe operations. This keeps subagents running without interrupting your main conversation for every file read or bash command.
+
+This is especially useful when subagents need to:
+- Read files across the codebase
+- Run non-destructive bash commands
+- Execute search operations
+
+Without permission routing, you'll get interrupted for every subagent action — which defeats the purpose of parallelization.
+
+:::tip
+You don't need special syntax. Just tell Claude to "use subagents for this" or "parallelize this work across subagents" and it will. Start with exploration tasks — they're the easiest win.
+:::
+
+---
+
+**← Prev:** [Self-Improving Loop](self-improving-loop/)
