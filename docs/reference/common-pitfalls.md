@@ -6,6 +6,20 @@ sidebar_position: 3
 
 Mistakes engineers make when starting with Claude Code — and how to avoid them.
 
+## At a Glance
+
+| Pitfall | Quick fix |
+|---------|-----------|
+| [Overloading CLAUDE.md](#overloading-claudemd) | Keep under 200 lines — use the pointer pattern |
+| [No CLAUDE.md at all](#no-claudemd-at-all) | 15 min setup pays off immediately |
+| [Fighting the agent](#fighting-the-agent) | Provide missing context, don't repeat louder |
+| [Delegating without tests](#delegating-without-tests) | Write tests first |
+| [Skipping the review](#skipping-the-review) | Always read the diff before committing |
+| [Not using `/compact`](#not-using-compact) | Compact between tasks |
+| [Too much at once](#too-much-at-once) | One task, one commit at a time |
+
+---
+
 ## Overloading CLAUDE.md
 
 **The mistake:** Putting everything into CLAUDE.md — full API docs, code examples, style guides, deployment procedures.
@@ -14,7 +28,9 @@ Mistakes engineers make when starting with Claude Code — and how to avoid them
 
 **The fix:** Keep CLAUDE.md under 200 lines. Use the pointer pattern — one line per concern with a link to the full doc. Deep knowledge goes in skills or reference files.
 
-## Not Having a CLAUDE.md at All
+---
+
+## No CLAUDE.md at All
 
 **The mistake:** Jumping straight into using Claude Code without writing a CLAUDE.md.
 
@@ -22,13 +38,17 @@ Mistakes engineers make when starting with Claude Code — and how to avoid them
 
 **The fix:** Spend 15 minutes writing even a basic CLAUDE.md with your tech stack, commands, and top 3 conventions. It pays off immediately.
 
-## Fighting the Agent Instead of Guiding It
+---
+
+## Fighting the Agent
 
 **The mistake:** Repeating the same instruction when Claude goes in the wrong direction, sometimes in ALL CAPS or with "IMPORTANT!!!".
 
 **Why it hurts:** The issue is usually missing context, not missing emphasis. More exclamation marks don't help.
 
 **The fix:** Step back and ask: what context is Claude missing? Provide it. If the approach is fundamentally wrong, explain why and suggest an alternative rather than insisting harder.
+
+---
 
 ## Delegating Without Tests
 
@@ -38,6 +58,8 @@ Mistakes engineers make when starting with Claude Code — and how to avoid them
 
 **The fix:** Write tests first (or have Claude write them). Tests are the safety net that makes delegation safe.
 
+---
+
 ## Skipping the Review
 
 **The mistake:** Accepting Claude's changes without reading the diff.
@@ -45,6 +67,8 @@ Mistakes engineers make when starting with Claude Code — and how to avoid them
 **Why it hurts:** Claude may change more than you asked for, introduce subtle bugs, or make different architectural choices than you'd prefer.
 
 **The fix:** Always review diffs. Use `git diff` before committing. Treat Claude's output like a PR from a capable but new team member.
+
+---
 
 ## Not Using `/compact`
 
@@ -54,7 +78,9 @@ Mistakes engineers make when starting with Claude Code — and how to avoid them
 
 **The fix:** `/compact` between tasks. Finished a bug fix? Compact before starting the next feature.
 
-## Trying to Do Everything at Once
+---
+
+## Too Much at Once
 
 **The mistake:** "Refactor the entire auth module, add OAuth support, migrate to the new database schema, and update all the tests."
 
@@ -62,6 +88,10 @@ Mistakes engineers make when starting with Claude Code — and how to avoid them
 
 **The fix:** One task at a time. Commit between tasks. Each change should be reviewable on its own.
 
-## Keep Learning
+---
 
+:::tip[Keep learning]
 For more on working effectively with Claude Code, see the [official best practices](https://code.claude.com/docs/en/best-practices).
+:::
+
+**← Prev:** [Workflow Patterns](../patterns/workflow-patterns.md)

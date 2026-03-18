@@ -6,7 +6,7 @@ sidebar_position: 2
 
 ## Installing Skills
 
-### From this repo (Proxify skills)
+### Proxify skills (this repo)
 
 ```bash
 # Install all Proxify skills
@@ -17,7 +17,7 @@ npx skills add proxify-dev/Claude-Code@skill-architecture
 npx skills add proxify-dev/Claude-Code@agent-development
 ```
 
-### From the community
+### Community skills
 
 ```bash
 # Browse available skills
@@ -28,9 +28,17 @@ npx skills add owner/repo
 npx skills add owner/repo@specific-skill
 ```
 
-Skills get installed to `~/.claude/skills/<name>/` (global) or `.claude/skills/<name>/` (project-level). After installing, the skill is active in your Claude Code sessions.
+Skills install to `~/.claude/skills/<name>/` (global) or `.claude/skills/<name>/` (project-level). After installing, the skill is active in all Claude Code sessions.
+
+:::tip[Where they go]
+Global skills are always available. Project-level skills only activate when you're in that directory — useful for team-specific knowledge.
+:::
 
 ## Browsing Available Skills
 
 - **Proxify skills:** See the [skills/](../../skills/) directory in this repo
 - **Community directory:** Browse [skills.sh](https://skills.sh)
+
+---
+
+**Next:** [Creating Skills →](creating-skills.md)

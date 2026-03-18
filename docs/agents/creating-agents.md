@@ -31,16 +31,16 @@ description: Use this agent when...  # Required. Triggering conditions + example
 model: inherit               # Required. inherit | sonnet | opus | haiku
 color: blue                  # Required. blue | cyan | green | yellow | magenta | red
 tools: ["Read", "Grep"]      # Optional. Restricts available tools.
-mcpServers:                   # Optional. MCP server access.
+mcpServers:                  # Optional. MCP server access.
   - github
 ---
 ```
 
-### name
+### `name`
 
-Identifier for the agent. Lowercase letters, numbers, and hyphens only. Must start and end with alphanumeric.
+Lowercase letters, numbers, and hyphens only. Must start and end with alphanumeric.
 
-### description
+### `description`
 
 The most critical field — determines when Claude triggers this agent. Must include triggering conditions and `<example>` blocks:
 
@@ -57,38 +57,42 @@ assistant: "[How Claude responds]"
 </example>
 ```
 
-Include 2-4 examples covering different phrasings and proactive/reactive triggering.
+Include 2–4 examples covering different phrasings and proactive/reactive triggering.
 
-### model
+### `model`
 
-- `inherit` — use the parent's model (recommended default)
-- `sonnet` — balanced speed and capability
-- `opus` — most capable, use for complex analysis
-- `haiku` — fast and cheap, use for simple tasks
+| Value | Use when |
+|-------|----------|
+| `inherit` | Default — uses the parent's model |
+| `sonnet` | Balanced speed and capability |
+| `opus` | Complex analysis, highest capability |
+| `haiku` | Fast and cheap, simple tasks |
 
-### color
+### `color`
 
-Visual identifier in the UI. Choose distinct colors for different agent types:
-- **Blue/Cyan** — analysis, review
-- **Green** — generation, creation
-- **Yellow** — validation, caution
-- **Red** — security, critical
-- **Magenta** — creative, transformation
+Visual identifier in the UI. Choose colors semantically:
 
-### tools
+| Color | Agent type |
+|-------|-----------|
+| Blue / Cyan | Analysis, review |
+| Green | Generation, creation |
+| Yellow | Validation, caution |
+| Red | Security, critical |
+| Magenta | Creative, transformation |
+
+### `tools`
 
 Restricts which tools the agent can use. Omit for full access.
 
-Common sets:
-- Read-only: `["Read", "Grep", "Glob"]`
-- Code generation: `["Read", "Write", "Grep"]`
-- Testing: `["Read", "Bash", "Grep"]`
+| Use case | Tool set |
+|----------|----------|
+| Read-only | `["Read", "Grep", "Glob"]` |
+| Code generation | `["Read", "Write", "Grep"]` |
+| Testing | `["Read", "Bash", "Grep"]` |
 
-### mcpServers
+### `mcpServers`
 
-Two forms:
-
-**Inline** (scoped to subagent — spins up fresh, main context never sees it):
+**Inline** — scoped to the subagent; spins up fresh, main context never sees it:
 ```yaml
 mcpServers:
   - playwright:
@@ -97,7 +101,7 @@ mcpServers:
       args: ["-y", "@playwright/mcp@latest"]
 ```
 
-**String reference** (reuses parent session's connection):
+**String reference** — reuses the parent session's existing connection:
 ```yaml
 mcpServers:
   - github

@@ -8,13 +8,13 @@ sidebar_position: 3
 
 ```
 skill-name/
-├── SKILL.md              (required — router + core principles)
-├── references/           (deep docs agents read during execution)
+├── SKILL.md              ← required: router + core principles
+├── references/           ← deep docs agents read during execution
 │   ├── topic-a.md
 │   └── topic-b.md
-├── scripts/              (executable code for deterministic tasks)
+├── scripts/              ← executable code for deterministic tasks
 │   └── helper.py
-└── assets/               (templates, icons, fonts)
+└── assets/               ← templates, icons, fonts
     └── template.html
 ```
 
@@ -36,11 +36,21 @@ Core insight in 2-3 sentences.
 - **Doing Y?** Read [topic-b.md](references/topic-b.md) — covers...
 ```
 
-The SKILL.md body loads into context every trigger, so keep it lean — route to references for depth.
+:::tip[Keep SKILL.md lean]
+The body loads into context every time the skill triggers. Route to references for depth — don't put everything in the body.
+:::
 
 ## Creating Your First Skill
 
-1. Create the directory: `mkdir -p ~/.claude/skills/my-skill/references`
-2. Write `SKILL.md` with frontmatter (name + description) and a routing body
-3. Add reference files for the deep content
-4. Test by starting a Claude Code session and asking about the skill's domain
+```bash
+# 1. Create the directory structure
+mkdir -p ~/.claude/skills/my-skill/references
+
+# 2. Write SKILL.md (frontmatter + routing body)
+# 3. Add reference files for deep content
+# 4. Test: start a Claude Code session and ask about the skill's domain
+```
+
+---
+
+**← Prev:** [Using Skills](using-skills.md) · **Next:** [Distributing Skills →](distributing-skills.md)

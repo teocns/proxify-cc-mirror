@@ -14,15 +14,19 @@ Skills are reusable knowledge packages that teach Claude domain-specific pattern
 
 Skills use a three-level loading model:
 
-| Level | What | When Loaded | Budget |
+| Level | What | When loaded | Budget |
 |-------|------|-------------|--------|
-| Metadata | Name + description | Always in context (skill registry) | ~100 words |
-| SKILL.md body | Entry point, routing, core principles | Every time the skill triggers | <500 lines |
-| References | Deep docs, scripts, assets | Only when explicitly read | Unlimited |
+| **Metadata** | Name + description | Always (skill registry) | ~100 words |
+| **SKILL.md body** | Entry point, routing, core principles | Every time the skill triggers | < 500 lines |
+| **References** | Deep docs, scripts, assets | Only when explicitly read | Unlimited |
 
-The metadata description is the trigger — it determines whether the skill fires. The body routes agents to the right reference. References are where the depth lives.
+The **description** is the trigger — it determines whether the skill fires. The body routes to the right reference. References are where the depth lives.
 
-## What's in This Section
+:::tip[The design intent]
+A skill's metadata costs almost nothing. Its body loads only when relevant. Its references load only when needed. This is how you give Claude deep knowledge without polluting the context window.
+:::
+
+## In This Section
 
 - [Using Skills](using-skills.md) — install, browse, and configure skills
 - [Creating Skills](creating-skills.md) — build your own skill

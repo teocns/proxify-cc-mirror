@@ -4,7 +4,20 @@ description: "Proven patterns for working with Claude Code on real engineering t
 sidebar_position: 2
 ---
 
-Proven patterns for working with Claude Code on real engineering tasks. These aren't prescriptive — adapt them to your project and style.
+Proven patterns for common engineering tasks. These aren't prescriptive — adapt them to your project and style.
+
+## Quick Reference
+
+| Pattern | Best for | Key benefit |
+|---------|----------|-------------|
+| [Plan-Then-Execute](#plan-then-execute) | Features touching multiple files | Catches wrong assumptions before any code is written |
+| [TDD Loop](#tdd-loop) | Utility functions, API endpoints, business logic | Tests drive correct behavior |
+| [Bug Fix Cycle](#bug-fix-cycle) | Any bug with an error message | Diagnoses root cause, not just the symptom |
+| [Refactor Cycle](#refactor-cycle) | Code reorganization, extracting modules | Safe and incremental with a green-test safety net |
+| [Code Review](#code-review-workflow) | Before every PR | Surfaces edge cases and security issues |
+| [Exploration](#exploration-pattern) | New codebase or unfamiliar module | Builds mental model before making changes |
+
+---
 
 ## Plan-Then-Execute
 
@@ -16,7 +29,11 @@ The most reliable pattern for non-trivial work. Separates thinking from doing.
 
 **When to use:** Features that touch multiple files, refactors, anything where a wrong first step is expensive to undo.
 
-**Tip:** Use Claude's plan mode (`/plan`) to enforce this — it prevents edits until you approve.
+:::tip
+Use `/plan` mode to enforce this — it prevents edits until you approve the plan.
+:::
+
+---
 
 ## TDD Loop
 
@@ -29,6 +46,8 @@ Let tests drive the implementation. Claude is very effective at this pattern.
 
 **When to use:** Well-defined behavior, utility functions, API endpoints, business logic.
 
+---
+
 ## Bug Fix Cycle
 
 A structured approach to debugging with Claude.
@@ -38,7 +57,9 @@ A structured approach to debugging with Claude.
 3. **Fix:** "Fix the root cause, not just the symptom."
 4. **Verify:** "Run the tests. Add a regression test for this bug."
 
-**When to use:** Any bug. The key is giving Claude the error output and letting it trace the cause rather than guessing.
+**When to use:** Any bug. The key is giving Claude the actual error output and letting it trace the cause rather than guessing.
+
+---
 
 ## Refactor Cycle
 
@@ -51,6 +72,8 @@ Safe, incremental refactoring with a safety net.
 
 **When to use:** Code reorganization, extracting modules, renaming across the codebase.
 
+---
+
 ## Code Review Workflow
 
 Use Claude as a thorough reviewer before opening a PR.
@@ -61,6 +84,8 @@ Use Claude as a thorough reviewer before opening a PR.
 
 **When to use:** Before every PR, especially for critical paths.
 
+---
+
 ## Exploration Pattern
 
 When you're new to a codebase or unfamiliar module.
@@ -70,6 +95,8 @@ When you're new to a codebase or unfamiliar module.
 3. **Build context:** "What would I need to change to add OAuth support?"
 
 **When to use:** Onboarding to a new repo, understanding unfamiliar code before making changes.
+
+---
 
 ## General Tips
 
@@ -82,3 +109,7 @@ When you're new to a codebase or unfamiliar module.
 :::tip[Want more?]
 The official docs have a broader set of [common workflows](https://code.claude.com/docs/en/common-workflows) covering PR creation, CI integration, and more.
 :::
+
+---
+
+**← Prev:** [Agentic Engineering](agentic-engineering.md) · **Next:** [Common Pitfalls →](../reference/common-pitfalls.md)

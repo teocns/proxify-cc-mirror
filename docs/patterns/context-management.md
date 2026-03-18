@@ -8,18 +8,19 @@ sidebar_position: 3
 For CLAUDE.md mechanics and memory configuration, see the [official memory docs](https://code.claude.com/docs/en/memory). For all configuration options, see [settings](https://code.claude.com/docs/en/settings).
 :::
 
-How to keep Claude Code effective across long sessions and large codebases.
-
 ## The Context Window
 
-Claude Code has a large context window, but it's shared between:
-- System prompt (~50 instructions)
-- CLAUDE.md files (loaded at launch)
-- Active skill content (loaded on trigger)
-- Your conversation history
-- Tool results (file reads, command output, search results)
+Claude Code has a large context window — but it's shared across everything:
 
-As the window fills, older messages get compressed. This is automatic, but you can manage it proactively.
+| Source | Cost |
+|--------|------|
+| System prompt | Fixed (~50 instructions) |
+| CLAUDE.md files | Fixed (loaded at launch) |
+| Active skill content | Pay-per-use (loads on trigger) |
+| Conversation history | Growing (accumulates over time) |
+| Tool results | Variable (file reads, command output, search) |
+
+As the window fills, older messages get compressed automatically. But you can manage this proactively.
 
 ## `/compact`
 
@@ -28,7 +29,9 @@ When the conversation gets long or unfocused, run `/compact`. It:
 - Frees context for new work
 - Re-injects CLAUDE.md from disk (so your instructions survive)
 
+:::tip
 **Use it between tasks.** Finished a bug fix and moving to a new feature? Compact first.
+:::
 
 ## `@imports` in CLAUDE.md
 
@@ -42,17 +45,17 @@ The `@path/to/file` syntax in CLAUDE.md enables inline file expansion. Use it fo
 
 This keeps CLAUDE.md lean while making deep docs accessible on demand. Supports up to 5 hops of recursion.
 
-## Strategies for Large Codebases
+## Large Codebases
 
 - **Break work into focused sessions.** Don't try to refactor 20 files in one conversation.
-- **Point Claude to specific files.** "Look at `src/auth/middleware.ts`" is better than "find the auth code."
+- **Point Claude to specific files.** "Look at `src/auth/middleware.ts`" beats "find the auth code."
 - **Use agents for exploration.** The Explore agent reads many files without polluting your main context.
 - **Commit between tasks.** Gives you a clean rollback point and lets you `/compact` without losing work.
 
-## Signs You're Running Low on Context
+## Signs You're Running Low
 
 - Claude starts forgetting earlier instructions or decisions
-- Responses become less specific or start repeating generic advice
+- Responses become less specific or repeat generic advice
 - Claude asks questions you already answered
 - Tool results are getting truncated
 
@@ -60,10 +63,14 @@ When you notice these, `/compact` and refocus.
 
 ## The Token Budget Mental Model
 
-Think of your context window as a budget:
-- CLAUDE.md: fixed cost (loaded every time)
-- Skills: pay-per-use (loaded when triggered)
-- Conversation: growing cost (accumulates)
-- Tool results: variable cost (some reads are cheap, some are expensive)
+Think of context as a budget:
 
-The cheapest way to give Claude information is through CLAUDE.md pointers and skills. The most expensive is pasting large files into the chat.
+- **Cheapest:** CLAUDE.md pointers and skills (fixed cost, high leverage)
+- **Mid:** Targeted file reads (pay once per read)
+- **Expensive:** Pasting large files into the chat (burns fast, not reusable)
+
+The goal is to front-load context efficiently at launch and let skills handle the rest on demand.
+
+---
+
+**← Prev:** [Workflow Patterns](workflow-patterns.md)
