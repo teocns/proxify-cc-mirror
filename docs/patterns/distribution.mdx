@@ -1,0 +1,121 @@
+---
+title: "Context Distribution"
+description: "How knowledge reaches agents at the right time — the layered architecture behind CLAUDE.md, skills, agents, and why each exists."
+---
+
+<Note>**You'll learn:** how Claude processes instructions from multiple layers, why each layer exists, how to route knowledge to the right one, and the architectural thinking that led to skills and agents.</Note>
+
+## The Core Problem
+
+When you tell Claude something in conversation, it works — for that session. But knowledge that lives only in conversation dies when the session ends.
+
+The question isn't *how* to persist knowledge. CLAUDE.md handles that. The real question is: **where should each piece of knowledge live so it reaches the agent at the right moment, without wasting context on things that aren't relevant?**
+
+This is the distribution problem. Every tool in the agentic engineering stack — CLAUDE.md, skills, agents, hooks — exists to solve a specific piece of it.
+
+## The Instruction Hierarchy
+
+When Claude processes a request, it sees instructions from multiple sources. Each source has different priority, reach, and cost.
+
+| Priority | Layer | Reach | Cost |
+|----------|-------|-------|------|
+| 1 (highest) | **System prompt** | Every turn, cannot be overridden | Fixed, always loaded |
+| 2 | **Tool descriptions** | Every turn tools are available | Fixed per tool |
+| 3 | **CLAUDE.md** | Every conversation in the project | Fixed, loaded at launch |
+| 3 | **Skills** | On trigger (when task matches description) | Pay-per-use |
+| 4 (lowest) | **User messages** | Single turn | Ephemeral |
+
+LLMs bias toward instructions at the periphery of the prompt — beginning and end. The attention budget is finite. Every instruction you add dilutes attention on the others.
+
+**This is why you can't just dump everything into CLAUDE.md.** A 500-line CLAUDE.md doesn't mean Claude knows 500 things well. It means Claude knows nothing reliably.
+
+## What Belongs Where
+
+Each layer has a job. Putting knowledge in the wrong layer either wastes context budget or fails to reach the agent when needed.
+
+**CLAUDE.md** — Project-specific context that every session needs:
+- Tech stack, build commands, architecture
+- Conventions Claude can't infer from existing code
+- Critical warnings and gotchas
+- **Pointers** to deeper knowledge (skills, reference docs)
+
+The budget is ~200 lines. The test: if removing a line wouldn't cause Claude to make mistakes, cut it. CLAUDE.md points; it doesn't explain.
+
+**Skills** — Deep knowledge loaded on demand:
+- Framework patterns, checklists, worked examples
+- Domain-specific workflows (database migrations, auth patterns, testing strategies)
+- Multi-step processes that apply to some tasks, not all
+
+Skills are the key architectural innovation. They give Claude deep expertise *without* the cost of loading it every session. A skill about React testing patterns costs nothing when you're writing a database migration.
+
+**Agents** — Skills wired into execution paths:
+- Trigger conditions (when does this activate?)
+- Tool access (what can it do?)
+- MCP connections (what external systems can it reach?)
+- System prompts that frame how knowledge gets applied
+
+Agents turn passive knowledge into active participants. A skill *waits* to be triggered by conversation. An agent *activates* in response to specific conditions.
+
+**Hooks** — Deterministic enforcement:
+- Formatting, linting, file restrictions
+- Anything that must *always* happen, regardless of LLM compliance
+
+CLAUDE.md is advisory. Hooks execute as code. If you need a guarantee, use a hook.
+
+## The Routing Decision
+
+When you learn something that should persist, pick the right vehicle:
+
+| Signal | Route to | Why |
+|--------|----------|-----|
+| Every session needs to know | CLAUDE.md (one line + pointer) | Always in context |
+| Only relevant to one domain | Skill or agent definition | Loaded only when relevant |
+| Deep framework with examples | Skill with `references/` subdirectory | Body loads on trigger, references load on demand |
+| Deterministic enforcement | Hook | Code execution, not LLM compliance |
+
+**The wrong choice isn't "no knowledge." It's knowledge in the wrong place.** A React testing framework in CLAUDE.md wastes 40 lines of budget on every non-React conversation. The same framework as a skill costs zero when irrelevant and loads fully when needed.
+
+## The Duplication Trap
+
+If a principle lives in a skill, CLAUDE.md should point to it — not restate it.
+
+The failure mode: you write the same rule in CLAUDE.md and in a skill. Six months later, you update the skill but forget CLAUDE.md. Now the agent sees two conflicting instructions and has to guess which one is current.
+
+**Each instruction lives in exactly one layer.** Pointers connect the layers; copies break them.
+
+## Why This Architecture Exists
+
+This isn't abstract design. The tools in this repo exist because of specific distribution failures.
+
+### Why skills exist
+
+Engineers were stuffing deep domain knowledge into CLAUDE.md. Their CLAUDE.md files grew to 400+ lines. Claude's instruction-following degraded. They'd add more emphasis ("ALWAYS do X", "NEVER do Y") but the problem wasn't emphasis — it was attention budget.
+
+Skills solve this by loading knowledge **only when the task triggers it**. A 200-line testing framework loads when you're writing tests. It doesn't exist when you're refactoring CSS.
+
+### Why `skill-architecture` exists
+
+Engineers then started writing skills — but agents never triggered them. The skill existed, the knowledge was good, but:
+- The description didn't match how people ask for help
+- The knowledge was in the wrong layer
+- Instructions were rigid rules instead of thinking prompts the agent could adapt
+
+Distribution is an architecture problem. *Where* knowledge lives determines *who* sees it. `skill-architecture` encodes this lesson — it teaches how to design knowledge so it actually reaches agents at decision time.
+
+### Why `agent-development` exists
+
+Skills are passive — they activate when conversation matches their trigger. Agents are active — they wire skills into execution paths with specific tools, MCP connections, and system prompts. Without agents, you have knowledge. With agents, you have knowledge that *acts*.
+
+### The pattern
+
+Every component in the stack — CLAUDE.md, skills, agents, hooks — exists because the previous layer wasn't enough. Not because we wanted more features, but because knowledge kept failing to reach agents at the right moment.
+
+## The Principle
+
+**Context is the leverage point.** The agent's effectiveness is bounded by what it knows at decision time. You control that through distribution — not by writing more documentation, but by routing knowledge to the layer where it'll be present when needed.
+
+A 200-line CLAUDE.md with sharp pointers, a handful of well-triggered skills, and agents that wire them together will outperform a 1000-line CLAUDE.md every time. Not because less is more — but because distribution beats accumulation.
+
+---
+
+**← Prev:** [Maturity Ladder](maturity-ladder/) · **Next:** [CLAUDE.md Guide →](../setup/claude-md/)
